@@ -39,28 +39,28 @@ public class Main {
         };
         
         */
-        //int n = 2000;
+        int n = 6;
         int p = 10000;
-        //int[][] A = createA(n);
+        int[][] A = createA(n);
         //System.out.println(Exercise1.findElementD1(A, n, p));
 //        System.out.println("D1:");
 //        System.out.format("\t" + "MEAN" + " \t\t|\t " + "\t" + "VARIANCE" + " \t|\t " + "\t" + "STDDEV" + "\n");
-        for (int i = 0; i < 3; i++){
-            System.out.println("D" + i);
-            System.out.format("\t" + "MEAN" + " \t\t|\t " + "\t" + "VARIANCE" + " \t|\t " + "\t" + "STDDEV" + "\n");
-            for (int n = 0; n <= 4000;){
-                if (n < 100){
-                    n += 10;
-                } else if (n >= 100 && n < 1000){
-                    n += 100;
-                } else {
-                    n += 1000;
-                }
-                int[][] A = createA(n);
-                //findElementD2(A, n, p);
-                timingExperiment(A, n, p, i);
-            }
-        }
+//        for (int i = 0; i < 3; i++){
+//            System.out.println("D" + i);
+//            System.out.format("\t" + "MEAN" + " \t\t|\t " + "\t" + "VARIANCE" + " \t|\t " + "\t" + "STDDEV" + "\n");
+//            for (int n = 0; n <= 4000;){
+//                if (n < 100){
+//                    n += 10;
+//                } else if (n >= 100 && n < 1000){
+//                    n += 100;
+//                } else {
+//                    n += 1000;
+//                }
+//                int[][] A = createA(n);
+//                //findElementD2(A, n, p);
+//                timingExperiment(A, n, p, i);
+//            }
+//        }
 //findElementD2(A, n, p);
 //findElementD1(A, n, p);
         //timingExperiment(A, n, p);
@@ -149,12 +149,12 @@ public class Main {
             //randomNo += randomIncrease;
         }
         
-//        StringBuilder sb = new StringBuilder();
-//        for (int[] row : A){
-//            sb.append(Arrays.toString(row)).append("\n");
-//        }
-//        
-//        System.out.println(sb.toString());
+        StringBuilder sb = new StringBuilder();
+        for (int[] row : A){
+            sb.append(Arrays.toString(row)).append("\n");
+        }
+        
+        System.out.println(sb.toString());
         return A;
     }
     
