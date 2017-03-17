@@ -7,7 +7,8 @@
  
 *Transferable skills*
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Describing algorithms using pseudo-code. Use of mathematical notation when analysing algorithms. Computer programming. Use of drawing tools
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Describing algorithms using pseudo-code. Use of mathematical notation when analysing algorithms. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Computer programming. Use of drawing tools.
+
 **Learning outcomes:**
 
 *Subject specific*
