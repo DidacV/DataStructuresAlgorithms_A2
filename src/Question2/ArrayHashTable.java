@@ -70,7 +70,10 @@ public class ArrayHashTable extends HashTable {
         for (Object e : table[pos]) {
             if (e != null){
                 // if it's a duplicate
-                if(e.equals(obj)) found = true;
+                if(e.equals(obj)) {
+                    found = true;
+                    break;
+                }
             }
         }
         return found;
