@@ -4,6 +4,7 @@
 1. *Subject specific*
 
  ⋅⋅⋅To test your ability to design, analyse and implement algorithms.
+ 
 2. *Transferable skills*
 
  ⋅⋅⋅Describing algorithms using pseudo-code; use of mathematical notation when analysing algorithms; computer programming, use of drawing tools.
