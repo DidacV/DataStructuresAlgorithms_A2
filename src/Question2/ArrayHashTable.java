@@ -1,5 +1,8 @@
 package Question2;
 
+import java.util.HashSet;
+import java.util.Random;
+
 /**
  *
  * @author Didac
@@ -32,7 +35,7 @@ public class ArrayHashTable extends HashTable {
             // add obj to first element in chain
             chain[0] = obj;
             counts[pos]++;
-            System.out.println("New chain created");
+            //System.out.println("New chain created");
             return true;
         } else {
             // if full
@@ -46,7 +49,7 @@ public class ArrayHashTable extends HashTable {
                 table[pos][counts[pos]] = obj;
                 // update count
                 counts[pos]++;
-                System.out.println("Chain full, created a new one and added obj");
+                //System.out.println("Chain full, created a new one and added obj");
                 return true;
             } else {
                 // if there isnt a duplicate
@@ -54,11 +57,11 @@ public class ArrayHashTable extends HashTable {
                     // add it in the null position
                     table[pos][counts[pos]] = obj;
                     counts[pos]++;
-                    System.out.println("Added");
+                    //System.out.println("Added");
                     return true;
                 }
             }
-            System.out.println("Duplicate, can't add.");
+            //System.out.println("Duplicate, can't add.");
             return false;
         }
     }
@@ -107,6 +110,7 @@ public class ArrayHashTable extends HashTable {
                 // and then break
                 for (int j = i; j < table[pos].length - 1; j++){
                     table[pos][j] = table[pos][j+1];
+                    if (table[pos][j+1] == null) break;
                     table[pos][j+1] = null;
                 }
                 return true;
@@ -115,19 +119,28 @@ public class ArrayHashTable extends HashTable {
         return false;
     }
     
+    public static int[] createArray(int n){
+        int[] A = new int[n];
+        Random r = new Random();
+        for (int i = 0; i < n; i++){
+            A[i] = Math.abs(r.nextInt());
+        }
+        return A;
+    }
+    
+    public static void timingExperiment(int[] A, ArrayHashTable h, int n){
+        for (int i = 0; i < n; i++){
+            h.add(A[i]);
+        }
+        //h.remove(34);
+    }
+    
     public static void main(String[] args){
-        ArrayHashTable ht = new ArrayHashTable();
-        System.out.println(ht.add(1));
-        System.out.println(ht.add(1));
-        System.out.println(ht.add(10));
-        System.out.println(ht.add(20));
-        System.out.println(ht.add(30));
-        System.out.println(ht.add(40));
-        System.out.println(ht.add(50));
-        System.out.println(ht.add(60));
-        System.out.println(ht.add(2));
-        System.out.println(ht.add(2));
-        System.out.println(ht.remove(10));
+        int n = 50000;
+        ArrayHashTable h = new ArrayHashTable();
+        HashSet hs = new HashSet();
+        int[] A = createArray(n);
+        timingExperiment(A, h, n);
     }
     
 }
