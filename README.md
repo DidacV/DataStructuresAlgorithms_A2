@@ -3,13 +3,13 @@
 
 1. *Subject specific*
 
-⋅⋅⋅To test your ability to design, analyse and implement algorithms.
-1. *Transferable skills*
+ ⋅⋅⋅To test your ability to design, analyse and implement algorithms.
+2. *Transferable skills*
 
-⋅⋅⋅Describing algorithms using pseudo-code; use of mathematical notation when analysing algorithms; computer programming, use of drawing tools.
+ ⋅⋅⋅Describing algorithms using pseudo-code; use of mathematical notation when analysing algorithms; computer programming, use of drawing tools.
 
 **Learning outcomes:**
 
-2. *Subject specific*
+1. *Subject specific*
 
-⋅⋅⋅Increased experience of problem-solving and algorithm design and analysis; further experience of programming in Java; increased awareness of the importance of algorithm complexity.
+ ⋅⋅⋅Increased experience of problem-solving and algorithm design and analysis; further experience of programming in Java; increased awareness of the importance of algorithm complexity.
