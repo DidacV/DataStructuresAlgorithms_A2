@@ -1,4 +1,5 @@
-## Assignment 2 - Year 2
+# Data Structures and Algorithms - Year 2
+## Assignment 2
 **Aim:**
 
 *Subject specific*
