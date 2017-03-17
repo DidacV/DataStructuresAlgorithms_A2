@@ -7,12 +7,11 @@
  
 *Transferable skills*
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Describing algorithms using pseudo-code. Use of mathematical notation when analysing algorithms.
-Computer programming. Use of drawing tools.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Describing algorithms using pseudo-code. Use of mathematical notation when analysing algorithms.<br> Computer programming. Use of drawing tools.
 
 **Learning outcomes:**
 
 *Subject specific*
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Increased experience of problem-solving and algorithm design and analysis.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Increased experience of problem-solving and algorithm design and analysis.<br>
 Further experience of programming in Java. Increased awareness of the importance of algorithm complexity
