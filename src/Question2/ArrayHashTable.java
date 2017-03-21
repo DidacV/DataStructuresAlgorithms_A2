@@ -1,7 +1,11 @@
 package Question2;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,6 +17,10 @@ public class ArrayHashTable extends HashTable {
     int[] counts = new int[capacity];
     Object[][] table = new Object[capacity][];
     
+    
+    //TODO: BST structure to enhance contains.
+    // It'll make it O(log(n))
+    //
     public ArrayHashTable(){
         for (int i = 0; i < capacity; i++){
             table[i] = null;
@@ -23,7 +31,6 @@ public class ArrayHashTable extends HashTable {
     @Override
     boolean add(Object obj) {
         int pos = obj.hashCode() % capacity;
-        boolean added = false;
         // If entry is empty (null)
         if (table[pos] == null){
             // Create new array of size chainSize
@@ -43,7 +50,7 @@ public class ArrayHashTable extends HashTable {
                 // if it's full
                 Object[] newChain = new Object[table[pos].length * 2];
                 // copy values over
-                System.arraycopy(table[pos], 0, newChain, 0, table[pos].length);
+                System.arraycopy(table[pos], 0, newChain, 0, counts[pos]);
                 table[pos] = newChain;
                 // add obj
                 table[pos][counts[pos]] = obj;
@@ -69,17 +76,11 @@ public class ArrayHashTable extends HashTable {
     @Override
     boolean contains(Object obj) {
         int pos = obj.hashCode() % capacity;
-        boolean found = false;
-        for (Object e : table[pos]) {
-            if (e != null){
-                // if it's a duplicate
-                if(e.equals(obj)) {
-                    found = true;
-                    break;
-                }
-            }
+        for (int i = 0; i < counts[pos] - 1; i++){
+            //if(table[pos][counts[pos]] != null)
+            if (table[pos][i].equals(obj)) return true;
         }
-        return found;
+        return false;
     }
 
     @Override
@@ -119,6 +120,12 @@ public class ArrayHashTable extends HashTable {
         return false;
     }
     
+//    private Object insertObjects(Comparable c, Object o){
+//        int comp = c.compareTo(o);
+//        if (comp == 0) {throw new IllegalArgumentException("Given element is there");}
+//        else if (comp < 0) 
+//    } 
+    
     public static int[] createArray(int n){
         int[] A = new int[n];
         Random r = new Random();
@@ -129,18 +136,57 @@ public class ArrayHashTable extends HashTable {
     }
     
     public static void timingExperiment(int[] A, ArrayHashTable h, int n){
-        for (int i = 0; i < n; i++){
-            h.add(A[i]);
+        double[] data = new double[4];
+        int reps = 1000;
+        double sum = 0;
+        double sumSquared = 0;
+        for (int i = 0; i < reps; i++){
+            long t1 = System.nanoTime();
+            for (int j = 0; j < n; j++){
+                h.add(A[j]);
+            }
+            long t2 = System.nanoTime() - t1;
+            sum += (double)t2/1000000.0;
+            sumSquared += (t2/1000000.0) * (t2/1000000.0);
         }
-        //h.remove(34);
+        double mean = sum/reps;
+        double variance = sumSquared / reps - (mean*mean);
+        double stdDev = Math.sqrt(variance);
+        data[0] = n;
+        data[1] = mean;
+        data[2] = variance;
+        data[3] = stdDev;
+        System.out.format(mean + " \t|\t " + variance + " \t|\t " + stdDev + "\n");
+        try {
+            createCSV(data);
+            //h.remove(34);
+        } catch (IOException ex) {
+            Logger.getLogger(ArrayHashTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void createCSV(double[] data) throws IOException{
+        FileWriter pw = new FileWriter("dataHashTable.csv", true);
+        StringBuilder sb = new StringBuilder();
+        for (double t : data){
+            sb.append(t).append(",");
+        }
+        sb.append("\n");
+        pw.write(sb.toString());
+        pw.flush();
+        pw.close();
     }
     
     public static void main(String[] args){
-        int n = 50000;
         ArrayHashTable h = new ArrayHashTable();
         HashSet hs = new HashSet();
-        int[] A = createArray(n);
-        timingExperiment(A, h, n);
+        for (int n = 0; n < 50000;){
+            if (n < 10000){n+=1000;}
+            else {n+=5000;}
+            int[] A = createArray(n);
+            timingExperiment(A, h, n);
+        }
+        //timingExperiment(A, h, n);
     }
     
 }
