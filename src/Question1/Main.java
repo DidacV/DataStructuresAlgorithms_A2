@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,63 +14,31 @@ import java.util.logging.Logger;
  */
 public class Main {
     
-    public static void main(String[] args){
-        
-//        int[][] A = {
-//            //0   1   2    3    4    5    6
-//            { 1,  3,  7,   8,   8,   9,  12}, // 0
-//            { 2,  4,  8,   9,  10,  30,  38}, // 1
-//            { 4,  5, 10,  20,  29,  50,  60}, // 2
-//            { 8, 10, 11,  30,  50,  60,  61}, // 3
-//            {11, 12, 40,  80,  90, 100, 111}, // 4
-//            {13 ,15, 50, 100, 110, 112, 120}, // 5
-//            {22, 27, 61, 112, 119, 138, 153}  // 6
-//        };
-        
-        /*
-        int[][] A = {
-            //0   1   2    3    4    5    6
-            { 1,  3,  7,   8,   8,   9,  12}, // 0
-            { 1,  3,  7,   8,   8,   9,  12}, // 1
-            { 1,  3,  7,   8,   8,   9,  12}, // 2
-            { 1,  3,  7,   8,   8,   9,  12}, // 3
-            { 1,  3,  7,   8,   8,   9,  12}, // 4
-            { 1,  3,  7,   8,   8,   9,  12}, // 5
-            { 1,  3,  7,   8,   8,   9,  13}  // 6
-        };
-        
-        */
-        //int n = 4000;
-        int p = -1;int[][] A;
-        //int[][] A = createA(n);
-        //System.out.println(Exercise1.findElementD1(A, n, p));
-        for (int i = 1; i < 2; i++){
-            System.out.println("D" + i);
-            System.out.format("\t" + "MEAN" + " \t\t|\t " + "\t" + "VARIANCE" + " \t|\t " + "\t" + "STDDEV" + "\n");
-            for (int n = 0; n <= 14000;){
-                if (n < 100){
-                    n += 10;
-                } else if (n >= 100 && n < 1000){
-                    n += 100;
-                } else {
-                    n += 1000;
+    /**
+     * Finds the elements given in the assignment with each algorithm.
+     * @param A given array in the assignment
+     * @param elements given elements
+     */
+    public static void findGivenElements(int[][] A, int[] elements){
+        for (int j = 0; j < elements.length; j++){
+            int p = elements[j];
+            for (int i = 0; i < 3; i++){
+                switch(i){
+                    case 0:
+                        System.out.println("Finding " + p + " with Linear search");
+                        System.out.println(findElementD(A, A.length, p));
+                        break;
+                    case 1:
+                        System.out.println("Finding " + p + " with Binary search");
+                        System.out.println(findElementD1(A, A.length, p));
+                        break;
+                    case 2:
+                        System.out.println("Finding " + p + " with Step search");
+                        System.out.println(findElementD2(A, A.length, p));
+                        break;
                 }
-                if (i == 1){
-                    p = 5;
-                    A = createAD1(n, p);
-                } else {
-                    A = createA(n); 
-                }
-                
-                //findElementD2(A, n, p);
-                timingExperiment(A, n, p, i);
             }
         }
-//createA(50);
-//createAD1(10);
-//System.out.println(findElementD2(A, n, A[n-1][0]));
-//findElementD1(A, n, p);
-        //timingExperiment(A, n, p);
     }
     
     /**
@@ -82,7 +51,7 @@ public class Main {
      */
     public static void timingExperiment(int[][] A, int n, int p, int D){
         double[] data = new double[4];
-        int reps = 3000;
+        int reps = 1000;
         double sum = 0;
         double sumSquared = 0;
         switch (D){
@@ -108,7 +77,7 @@ public class Main {
                 break;
             case 2:
                 // Worst case for D2 is when p is in the bottom left
-                A[0][n-1] = p;
+                //A[0][n-1] = p;
                 for (int i = 0; i < reps; i++){
                     long t1 = System.nanoTime();
                     findElementD2(A, n, p);
@@ -141,7 +110,7 @@ public class Main {
      * @param n the size of the array
      * @return 2D array
      */
-    public static int[][] createA(int n){
+    public static int[][] createMatrix(int n){
         Random r = new Random();
         int prevColVal = 0;
         int max = 1;
@@ -178,60 +147,53 @@ public class Main {
             randomNo = r.nextInt(max - min + 1) + min;
             
         }
-//        
-//        StringBuilder sb = new StringBuilder();
-//        for (int[] row : A){
-//            sb.append(Arrays.toString(row)).append("\n");
-//        }
-//        
-//        System.out.println(sb.toString());
         return A;
     }
     
-    public static int[][] createAD1(int n, int nToExclude){
+    /**
+     * Creates an array sorted by row in a non-descending order. 
+     * @param n size of the array
+     * @param nToExclude number to exclude will be p (for worst case instance)
+     * @return 2D array with sorted rows
+     */
+    public static int[][] createMatrixD1(int n, int nToExclude){
         Random r = new Random();
         int[][] A = new int[n][n];
+        int prevColVal;
+        int max = 1;
+        int min = 1;
         for (int i = 0; i < n; i++){
-            //int randomNo = r.nextInt(max - min + 1) + min;
-             int prevColVal = 0;
+            int randomNo = r.nextInt(max - min + 1) + min;
+            prevColVal = 0;
             for (int j = 0; j < n; j++){
-                int randomNo = r.nextInt(nToExclude + 1);
-                int randIncrement = r.nextInt(nToExclude + 1);
-                randomNo += randIncrement;
                 if (j > 0) {prevColVal = A[i][j-1];}
-                while (randomNo <= prevColVal || randomNo == nToExclude){
-                    randIncrement = r.nextInt(5);
-                    randomNo += randIncrement;
+                randomNo += r.nextInt(nToExclude);
+                
+                while (randomNo < prevColVal || randomNo <= nToExclude){
+                    randomNo += r.nextInt(nToExclude);
                 }
+                
                 A[i][j] = randomNo;
             }
             A[i][0] = r.nextInt(nToExclude);
         }
-//        
-//        StringBuilder sb = new StringBuilder();
-//        for (int[] row : A){
-//            sb.append(Arrays.toString(row)).append("\n");
-//        }
-//        
-//        System.out.println(sb.toString());
         return A;
     }
     
     public static boolean findElementD(int[][] A, int n, int p){
-        boolean found = false;
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++){
-                found = A[i][j] == p;
+                if(A[i][j] == p) return true;
             }
         }
-        return found;
+        return false;
     }
     
     public static boolean findElementD1(int[][] A, int n, int p){
         //System.out.println("Finding... " + p);
         boolean found = false;
         for (int i = 0; i < n; i++){
-            found = recursionD1(A[i], 0, n, p);
+            found = binary(A[i], 0, n, p);
             if (found) break;
         }
         return found;
@@ -240,7 +202,7 @@ public class Main {
     public static boolean findElementD2(int[][] A, int n, int p){
         // Pivot will be top right
         int pivot = A[0][n-1];
-        return recursionD2(A, pivot, 0, n-1, p);
+        return step(A, pivot, 0, n-1, p);
     }
     
     /**
@@ -253,7 +215,7 @@ public class Main {
      * @param p Number to find
      * @return true if p is found, false otherwise
      */
-    public static boolean recursionD2(int[][] A, int pivot, int row, int column, int p){
+    public static boolean step(int[][] A, int pivot, int row, int column, int p){
 //        if (p < A[row][0]  || p > A[0][A.length - 1]){
 //            return false;
 //        }
@@ -263,11 +225,11 @@ public class Main {
         if (p > pivot && row < A.length - 1){
             row++;
             pivot = A[row][column];
-            return recursionD2(A, pivot, row, column, p);
+            return step(A, pivot, row, column, p);
         } else if (p < pivot && column > 0){
             column--;
             pivot = A[row][column];
-            return recursionD2(A, pivot, row, column, p);
+            return step(A, pivot, row, column, p);
         } else {
             return pivot == p;
         }
@@ -281,7 +243,7 @@ public class Main {
      * @param p integer to find
      * @return true if number is found, false otherwise
      */
-    public static boolean recursionD1(int[] row, int left, int right, int p){
+    public static boolean binary(int[] row, int left, int right, int p){
         // If p can't be in this row, check next one
         if (p < row[0]  || p > row[row.length - 1]){
             return false;
@@ -293,9 +255,9 @@ public class Main {
         if (row[mid] == p){
             return true;
         } else if (p > row[mid]){
-            return recursionD1(row, mid + 1, right, p);
+            return binary(row, mid + 1, right, p);
         } else {
-            return recursionD1(row, left, mid - 1, p);
+            return binary(row, left, mid - 1, p);
         }
     }
     
@@ -316,4 +278,70 @@ public class Main {
         pw.close();
     }
     
+    public static void printMatrix(int[][] A){
+        StringBuilder sb = new StringBuilder();
+        for (int[] row : A){
+            sb.append(Arrays.toString(row)).append("\n");
+        }
+        
+        System.out.println(sb.toString());
+    }
+    
+    public static void main(String[] args){
+        int p = 0;
+        System.out.println("1 to find given numbers with given array, \n"
+                + "2 to run test experiment with random arrays (worst case instances):");
+        Scanner sc = new Scanner(System.in);
+        int option = sc.nextInt();
+        while (option != 1 && option != 2){
+            System.out.println("Try again: \n");
+            option = sc.nextInt();
+        }
+        
+        if(option == 1){
+            int[] elements = {4,12,110,5,6,111};
+            int[][] A = {
+                //0   1   2    3    4    5    6
+                { 1,  3,  7,   8,   8,   9,  12}, // 0
+                { 2,  4,  8,   9,  10,  30,  38}, // 1
+                { 4,  5, 10,  20,  29,  50,  60}, // 2
+                { 8, 10, 11,  30,  50,  60,  61}, // 3
+                {11, 12, 40,  80,  90, 100, 111}, // 4
+                {13 ,15, 50, 100, 110, 112, 120}, // 5
+                {22, 27, 61, 112, 119, 138, 153}  // 6
+            };
+            findGivenElements(A, elements);
+        } else {
+            int[][] A = new int[0][0];
+            for (int i = 0; i < 3; i++){
+                switch(i){
+                    case 0:
+                        System.out.println("Testing with linear search (D):");
+                        System.out.format("\t" + "MEAN" + " \t\t|\t " + "\t" + "VARIANCE" + " \t|\t " + "\t" + "STDDEV" + "\n");
+                        break;
+                    case 1:
+                        System.out.println("Testing with binary search (D1):");
+                        System.out.format("\t" + "MEAN" + " \t\t|\t " + "\t" + "VARIANCE" + " \t|\t " + "\t" + "STDDEV" + "\n");
+                        break;
+                    case 2:
+                        System.out.println("Testing with step search (D2):");
+                        System.out.format("\t" + "MEAN" + " \t\t|\t " + "\t" + "VARIANCE" + " \t|\t " + "\t" + "STDDEV" + "\n");
+                        break;
+                }
+                for (int n = 0; n < 14000;){
+                    if (n < 100){n += 10;} 
+                    else if (n >= 100 && n < 1000){n += 100;} 
+                    else {n += 1000;}
+                    
+                    switch(i){
+                        case 0: A = createMatrix(n); p = -1; break;
+                        case 1: p = 5; A = createMatrixD1(n,p);  break;
+                        case 2: A = createMatrix(n); p = A[n-1][0]; break;
+                    }
+                    
+                    timingExperiment(A, n, p, i);
+                }
+            }
+        }
+    }
 }
